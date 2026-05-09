@@ -30,5 +30,13 @@ sessionLocal = sessionmaker(
     bind=engine
 )
 
+
+def get_db():
+    db = sessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 #Base class for all database models
 Base = declarative_base()
