@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  #PostgreSQL database service
+  db:
+    image: postgres:15
+
+    container_name: insight_kitchen_db
+
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Peezy.123
+      POSTGRES_DB: insight_kitchen_db
+
+    ports: 
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
