@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, HTTPException
 import pandas as pd
 from fastapi import Depends
 from sqlalchemy.orm import Session
@@ -25,13 +25,8 @@ async def upload_csv(file: UploadFile = File(...),
     Database insertion
     """
 
-    #Read uploaded csv file
-    df = pd.read_csv(file.file)
-
-    #Convert first rows to JSON preview
-    preview = df.head().to_dict(orient="records")
-
     try:
+        # Read the stream once. UploadFile.file behaves like a cursor.
         df = pd.read_csv(file.file)
         inserted_orders = 0
         inserted_items = 0
@@ -73,4 +68,4 @@ async def upload_csv(file: UploadFile = File(...),
         }
     except Exception as e:
         db.rollback()
-        return {"error": str(e)}
+        raise HTTPException(status_code=400, detail=str(e))
