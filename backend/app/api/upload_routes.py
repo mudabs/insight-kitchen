@@ -54,6 +54,7 @@ async def upload_csv(file: UploadFile = File(...),
             new_item = OrderItem(
                 order_id=new_order.id,
                 item_name=row["item_name"],
+                category=row["category"],
                 quantity=row["quantity"],
                 price=row["price"]
             )
