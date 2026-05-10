@@ -1,7 +1,6 @@
 #SQLAlchemy column types
 from sqlalchemy import Column, Integer, String, Float, DateTime
-
-#Import Base class
+from sqlalchemy.orm import relationship
 from app.database.database import Base
 
 #Create Order table model
@@ -20,3 +19,6 @@ class Order(Base):
 
     #Total order amount
     total_amount = Column(Float, nullable=False)
+
+    # Relationship to OrderItem
+    items = relationship("OrderItem", back_populates="order")
