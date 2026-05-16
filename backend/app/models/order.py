@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from sqlalchemy.orm import relationship
 from app.database.database import Base
+from sqlalchemy import ForeignKey
 
 #Create Order table model
 class Order(Base):
@@ -22,3 +23,8 @@ class Order(Base):
 
     # Relationship to OrderItem
     items = relationship("OrderItem", back_populates="order")
+
+    restaurant_id = Column(
+    Integer,
+    ForeignKey("restaurants.id")
+)
