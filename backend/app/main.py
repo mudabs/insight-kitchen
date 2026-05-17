@@ -4,6 +4,9 @@ from fastapi import FastAPI
 
 from app.database.database import Base, engine
 from app.models.order import Order  # noqa: F401
+from app.models.order_item import OrderItem  # noqa: F401
+from app.models.organization import Organization  # noqa: F401
+from app.models.restaurant import Restaurant  # noqa: F401
 from app.api.order_routes import router as order_router
 from app.api.upload_routes import router as upload_router
 from app.api.analytics_routes import router as analytics_router

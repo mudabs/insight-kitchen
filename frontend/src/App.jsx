@@ -3,11 +3,15 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
+  OrganizationSwitcher,
+  OrganizationProfile,
 } from '@clerk/clerk-react'
 import { useAuth } from "@clerk/clerk-react"
+import { useOrganization } from "@clerk/clerk-react"
 
 function App() {
   const { getToken } = useAuth()
+  const { organization } = useOrganization()
 
   return (
     <div style={{ padding: '2rem' }}>
@@ -22,6 +26,15 @@ function App() {
         <UserButton />
 
         <h2>You are signed in.</h2>
+
+        <OrganizationSwitcher />
+
+        <OrganizationProfile />
+
+        <p>
+          Current Org:
+          {organization?.id || "NO ORG"}
+        </p>  
 
         {/* <button
           onClick={async () => {

@@ -28,7 +28,7 @@ def verify_token(token: str):
             algorithms=["RS256"],
             options={"verify_aud": False}
         )
-
+        print(payload)
         return payload
     except Exception as e:
 

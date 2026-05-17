@@ -17,6 +17,11 @@ from mlxtend.frequent_patterns import (
     association_rules
 )
 from app.services.auth_service import get_current_user
+from app.services.tenant_service import (
+    get_current_organization, 
+    get_restaurants_for_organization
+)
+from app.models.restaurant import Restaurant
 
 router = APIRouter(
     prefix="/analytics",
@@ -29,16 +34,20 @@ def revenue_summary(db: Session = Depends(get_db), current_user: dict = Depends(
     """
     Returns high-level restaurant revenue metrics.
     """
+    organization = get_current_organization(db, current_user)
+    restaurants = get_restaurants_for_organization(db, organization.id)
 
     # Total revenue
     total_revenue = db.query(
         func.sum(Order.total_amount)
-    ).scalar()
+    ).join(Restaurant, Order.restaurant_id == Restaurant.id
+    ).filter(Restaurant.organization_id == organization.id).scalar()
 
     # Total orders
     total_orders = db.query(
         func.count(Order.id)
-    ).scalar()
+    ).join(Restaurant, Order.restaurant_id == Restaurant.id
+    ).filter(Restaurant.organization_id == organization.id).scalar()
 
     # Average order value
     average_order_value = 0
